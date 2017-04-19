@@ -1,4 +1,4 @@
-package edu.christophstach.bank;
+package edu.stachtiedmann.bank;
 
 /**
  * stellt ein allgemeines Konto dar

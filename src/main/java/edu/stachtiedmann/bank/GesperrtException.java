@@ -1,4 +1,4 @@
-package edu.christophstach.bank;
+package edu.stachtiedmann.bank;
 
 /**
  * tritt bei einem schädigenden Zugriff auf ein gesperrtes Konto auf

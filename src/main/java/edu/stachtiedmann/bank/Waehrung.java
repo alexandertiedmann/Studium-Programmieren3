@@ -1,4 +1,4 @@
-package edu.christophstach.bank;
+package edu.stachtiedmann.bank;
 
 /**
  * Created by Christoph Stach on 4/11/17.

@@ -1,4 +1,4 @@
-package edu.christophstach;
+package edu.stachtiedmann;
 
 import junit.framework.TestCase;
 

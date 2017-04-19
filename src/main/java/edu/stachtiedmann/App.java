@@ -1,6 +1,6 @@
-package edu.christophstach;
+package edu.stachtiedmann;
 
-import edu.christophstach.bank.*;
+import edu.stachtiedmann.bank.*;
 
 /**
  * Created by Christoph Stach on 17/4/17.
