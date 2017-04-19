@@ -55,11 +55,7 @@ public class Student extends Kunde {
      * @return Bescheinigung oder nicht
      */
     public boolean istVerguenstigt() {
-        if (this.semester > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.semester > 0;
     }
 
     @Override
