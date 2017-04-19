@@ -2,8 +2,6 @@ package edu.christophstach;
 
 import edu.christophstach.bank.*;
 
-import java.time.LocalDate;
-
 /**
  * Created by Christoph Stach on 17/4/17.
  * <p>
@@ -32,7 +30,8 @@ public class App {
     System.out.println(b); //50
 
 
-    Kunde ich = new Kunde("Dorothea", "Hubrich", "zuhause", LocalDate.parse("1976-07-13"));
+    //Kunde ich = new Kunde("Dorothea", "Hubrich", "zuhause", LocalDate.parse("1976-07-13"));
+    Student ich = new Student("Alexander", "Tiedmann", "@Home", "04.02.93","HTW",3);
 
     Konto meinGiro = new Girokonto(ich, 1234, 1000.0);
     meinGiro.einzahlen(50);
