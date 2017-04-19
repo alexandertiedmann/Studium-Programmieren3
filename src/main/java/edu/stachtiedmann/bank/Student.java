@@ -12,10 +12,14 @@ public class Student extends Kunde {
     private int semester;
 
     /**
-     * Konstruktor Student
+     * Konstruktor fuer Student
      *
-     * @param name Name der Universitaet
-     * @param sem  aktuelles Semester
+     * @param vorname  Vorname
+     * @param nachname Nachname
+     * @param adresse  Adresse
+     * @param gebdat   Geburtsdatum Format: tt.mm.jj
+     * @param name     Name der Universitaet
+     * @param sem      Aktuelles Semester
      */
     public Student(String vorname, String nachname, String adresse, String gebdat, String name, int sem) {
         super(vorname, nachname, adresse, gebdat);
