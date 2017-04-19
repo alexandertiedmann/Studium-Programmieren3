@@ -13,8 +13,8 @@ public class StudentTest extends TestCase {
     Student s1, s2;
 
     protected void setUp() {
-        s1 = new Student("Test", "Test", "Teststr", "2000-01-01", "HTW", 3);
-        s2 = new Student("Test", "Test", "Teststr", "2000-01-02", "HTW", 0);
+        s1 = new Student("Test", "Test", "Teststr", "01.01.00", "HTW", 3);
+        s2 = new Student("Test", "Test", "Teststr", "03.02.89", "HTW", 0);
     }
 
     public void testIstVerguenstigt() {
