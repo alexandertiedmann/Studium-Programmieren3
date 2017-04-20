@@ -86,7 +86,7 @@ public class Kunde implements Comparable<Kunde> {
    * @throws IllegalArgumentException wenn einer der Parameter null ist
    */
   public Kunde(String vorname, String nachname, String adresse, String gebdat) {
-    this(vorname, nachname, adresse, LocalDate.parse(gebdat, DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+    this(vorname, nachname, adresse, LocalDate.parse(gebdat, DateTimeFormatter.ofPattern("dd.MM.yy")));
   }
 
   /**
