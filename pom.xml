@@ -35,6 +35,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
+                            <addClasspath>true</addClasspath>
                             <mainClass>edu.stachtiedmann.App</mainClass>
                         </manifest>
                     </archive>
