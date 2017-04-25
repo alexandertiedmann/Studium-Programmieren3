@@ -67,6 +67,19 @@ public class BankTest extends TestCase {
   }
 
   /**
+   * Test von geldEinzahlen mit negativem Betrag
+   */
+  public void testGeldEinzahlenNegativerBetrag() {
+    boolean ok = true;
+    try {
+      b1.geldEinzahlen(0, -100);
+    } catch (IllegalArgumentException e) {
+      ok = false;
+    }
+    assertFalse(ok);
+  }
+
+  /**
    * Test von geldAbheben (Aufruf von testGeldEinzahlen)
    */
   public void testGeldAbheben() {
@@ -82,11 +95,35 @@ public class BankTest extends TestCase {
   }
 
   /**
+   * Test von geldAbheben (Aufruf von testGeldEinzahlen)
+   * wenn kein Geld vorhanden ist
+   */
+  public void testGeldAbhebenKeinGeld() {
+    this.testGeldEinzahlen();
+    boolean ok = true;
+    boolean abgehoben = true;
+    try {
+      abgehoben = b1.geldAbheben(0, 10000);
+    } catch (GesperrtException e) {
+      ok = false;
+    }
+    assertFalse((abgehoben) && (ok));
+  }
+
+  /**
    * Test von kontoLoeschen
    */
   public void testKontoLoeschen() {
     boolean ok = b1.kontoLoeschen(1);
     assertTrue(ok);
+  }
+
+  /**
+   * Test von kontoLoeschen wenn das Konto nicht vorhanden ist
+   */
+  public void testKontoLoeschenNichtVorhanden() {
+    boolean ok = b1.kontoLoeschen(4);
+    assertFalse(false);
   }
 
   /**
