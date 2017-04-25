@@ -109,4 +109,20 @@ public class BankTest extends TestCase {
     }
     assertTrue(ok);
   }
+
+  /**
+   * Test von geldUeberweisen (aufruf von testGeldEinzahlen)
+   * Versuch mit Sparbuch sollte fehlschlagen
+   */
+  public void testGeldUeberweisenFail(){
+    b1.sparbuchErstellen(k1);
+    b1.geldEinzahlen(2,100);
+    boolean ok = false;
+    try {
+      ok = b1.geldUeberweisen(0,1,50,"Testueberweisung");
+    }catch (GesperrtException e){
+      ok = false;
+    }
+    assertFalse(ok);
+  }
 }
