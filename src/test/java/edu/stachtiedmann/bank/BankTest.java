@@ -1,6 +1,7 @@
 package edu.stachtiedmann.bank;
 
 import junit.framework.TestCase;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +61,8 @@ public class BankTest extends TestCase {
   /**
    * Test von geldEinzahlen
    */
-  public void testGeldEinzahlen(){
-    b1.geldEinzahlen(0,100);
+  public void testGeldEinzahlen() {
+    b1.geldEinzahlen(0, 100);
     assertTrue(b1.getKontostand(0) == 100);
   }
 
@@ -73,8 +74,8 @@ public class BankTest extends TestCase {
     boolean ok = true;
     boolean abgehoben = true;
     try {
-      abgehoben = b1.geldAbheben(0,10);
-    } catch (GesperrtException e ){
+      abgehoben = b1.geldAbheben(0, 10);
+    } catch (GesperrtException e) {
       ok = false;
     }
     assertTrue((abgehoben) && (ok));
@@ -83,7 +84,7 @@ public class BankTest extends TestCase {
   /**
    * Test von kontoLoeschen
    */
-  public void testKontoLoeschen(){
+  public void testKontoLoeschen() {
     boolean ok = b1.kontoLoeschen(1);
     assertTrue(ok);
   }
@@ -91,7 +92,7 @@ public class BankTest extends TestCase {
   /**
    * Test von getKontostand
    */
-  public void testGetKontostand(){
+  public void testGetKontostand() {
     double stand = b1.getKontostand(1);
     assertTrue(stand == 0);
   }
@@ -99,12 +100,12 @@ public class BankTest extends TestCase {
   /**
    * Test von geldUeberweisen (aufruf von testGeldEinzahlen)
    */
-  public void testGeldUeberweisen(){
+  public void testGeldUeberweisen() {
     this.testGeldEinzahlen();
     boolean ok = false;
     try {
-      ok = b1.geldUeberweisen(0,1,50,"Testueberweisung");
-    }catch (GesperrtException e){
+      ok = b1.geldUeberweisen(0, 1, 50, "Testueberweisung");
+    } catch (GesperrtException e) {
       ok = false;
     }
     assertTrue(ok);
@@ -114,13 +115,13 @@ public class BankTest extends TestCase {
    * Test von geldUeberweisen (aufruf von testGeldEinzahlen)
    * Versuch mit Sparbuch sollte fehlschlagen
    */
-  public void testGeldUeberweisenFail(){
+  public void testGeldUeberweisenFail() {
     b1.sparbuchErstellen(k1);
-    b1.geldEinzahlen(2,100);
+    b1.geldEinzahlen(2, 100);
     boolean ok = false;
     try {
-      ok = b1.geldUeberweisen(0,1,50,"Testueberweisung");
-    }catch (GesperrtException e){
+      ok = b1.geldUeberweisen(0, 1, 50, "Testueberweisung");
+    } catch (GesperrtException e) {
       ok = false;
     }
     assertFalse(ok);
