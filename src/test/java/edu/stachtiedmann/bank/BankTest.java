@@ -62,21 +62,23 @@ public class BankTest extends TestCase {
    * Test von geldEinzahlen
    */
   public void testGeldEinzahlen() {
-    b1.geldEinzahlen(0, 100);
-    assertTrue(b1.getKontostand(0) == 100);
+    try {
+      b1.geldEinzahlen(0, 100);
+    } catch (IllegalArgumentException e) {
+      fail("Es sollte keine Exception geworfen werden");
+    }
   }
 
   /**
    * Test von geldEinzahlen mit negativem Betrag
    */
   public void testGeldEinzahlenNegativerBetrag() {
-    boolean ok = true;
     try {
       b1.geldEinzahlen(0, -100);
+      fail("Sollte eine Exception werfen wenn Betrag negativ");
     } catch (IllegalArgumentException e) {
-      ok = false;
+      //Nothing to do
     }
-    assertFalse(ok);
   }
 
   /**
@@ -84,14 +86,12 @@ public class BankTest extends TestCase {
    */
   public void testGeldAbheben() {
     this.testGeldEinzahlen();
-    boolean ok = true;
-    boolean abgehoben = true;
     try {
-      abgehoben = b1.geldAbheben(0, 10);
+      assertTrue(b1.geldAbheben(0, 10));
     } catch (GesperrtException e) {
-      ok = false;
+      fail("Bei normalem Verhalten sollte keine Exception auftreten");
     }
-    assertTrue((abgehoben) && (ok));
+
   }
 
   /**
@@ -100,14 +100,12 @@ public class BankTest extends TestCase {
    */
   public void testGeldAbhebenKeinGeld() {
     this.testGeldEinzahlen();
-    boolean ok = true;
     boolean abgehoben = true;
     try {
-      abgehoben = b1.geldAbheben(0, 10000);
+      assertFalse(b1.geldAbheben(0, 10000));
     } catch (GesperrtException e) {
-      ok = false;
+      //Nothing to do
     }
-    assertFalse((abgehoben) && (ok));
   }
 
   /**
@@ -139,13 +137,11 @@ public class BankTest extends TestCase {
    */
   public void testGeldUeberweisen() {
     this.testGeldEinzahlen();
-    boolean ok = false;
     try {
-      ok = b1.geldUeberweisen(0, 1, 50, "Testueberweisung");
+      assertTrue(b1.geldUeberweisen(0, 1, 50, "Testueberweisung"));
     } catch (GesperrtException e) {
-      ok = false;
+      fail("Bei normalem Verhalten sollte keine Exception auftreten");
     }
-    assertTrue(ok);
   }
 
   /**
@@ -154,13 +150,10 @@ public class BankTest extends TestCase {
    */
   public void testGeldUeberweisenFail() {
     b1.sparbuchErstellen(k1);
-    b1.geldEinzahlen(2, 100);
-    boolean ok = false;
     try {
-      ok = b1.geldUeberweisen(0, 1, 50, "Testueberweisung");
+      assertFalse(b1.geldUeberweisen(2, 1, 5000, "Testueberweisung"));
     } catch (GesperrtException e) {
-      ok = false;
+      fail();
     }
-    assertFalse(ok);
   }
 }
