@@ -1,9 +1,6 @@
 package edu.stachtiedmann.bank;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Christoph Stach on 4/21/17.
@@ -11,7 +8,7 @@ import java.util.List;
  * Klasse zur Verwaltung einer Bank.
  */
 public class Bank {
-  private HashMap<Long, Konto> konten = new HashMap<Long, Konto>();
+  private Map<Long, Konto> konten = new HashMap<Long, Konto>();
   private long currentKontoNr = 0;
   private long bankleitzahl;
 
