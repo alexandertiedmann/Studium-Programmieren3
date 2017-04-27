@@ -147,9 +147,6 @@ public class Bank {
     if (!(von instanceof Girokonto && nach instanceof Girokonto)) {
       return false;
     } else {
-      von = (Girokonto) von;
-      nach = (Girokonto) nach;
-
       if (!von.abheben(betrag)) {
         return false;
       } else {

@@ -53,8 +53,8 @@ public class BankTest extends TestCase {
    */
   public void testGetAlleKonten() {
     List<Long> liste = new ArrayList<>();
-    liste.add(0l);
-    liste.add(1l);
+    liste.add(0L);
+    liste.add(1L);
     assertTrue(b1.getAlleKontoNummern().equals(liste));
   }
 
@@ -86,6 +86,7 @@ public class BankTest extends TestCase {
    */
   public void testGeldAbheben() {
     this.testGeldEinzahlen();
+
     try {
       assertTrue(b1.geldAbheben(0, 10));
     } catch (GesperrtException e) {
@@ -100,7 +101,7 @@ public class BankTest extends TestCase {
    */
   public void testGeldAbhebenKeinGeld() {
     this.testGeldEinzahlen();
-    boolean abgehoben = true;
+
     try {
       assertFalse(b1.geldAbheben(0, 10000));
     } catch (GesperrtException e) {
@@ -121,7 +122,7 @@ public class BankTest extends TestCase {
    */
   public void testKontoLoeschenNichtVorhanden() {
     boolean ok = b1.kontoLoeschen(4);
-    assertFalse(false);
+    assertFalse(ok);
   }
 
   /**
@@ -137,6 +138,7 @@ public class BankTest extends TestCase {
    */
   public void testGeldUeberweisen() {
     this.testGeldEinzahlen();
+
     try {
       assertTrue(b1.geldUeberweisen(0, 1, 50, "Testueberweisung"));
     } catch (GesperrtException e) {
@@ -150,6 +152,7 @@ public class BankTest extends TestCase {
    */
   public void testGeldUeberweisenFail() {
     b1.sparbuchErstellen(k1);
+    
     try {
       assertFalse(b1.geldUeberweisen(2, 1, 5000, "Testueberweisung"));
     } catch (GesperrtException e) {
