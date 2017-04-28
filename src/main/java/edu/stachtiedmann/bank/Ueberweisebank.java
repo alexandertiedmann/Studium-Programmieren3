@@ -35,7 +35,7 @@ public class Ueberweisebank {
    * Erstellt eine leere Bank ohne Konten
    * als erste Kontonummer fuer ein neu zu eroeffnendes Konto wird 1001 vergeben werden.
    *
-   * @param blz  long
+   * @param blz long
    */
   private Ueberweisebank(long blz) {
     this.bankleitzahl = blz;
