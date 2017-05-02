@@ -7,8 +7,18 @@ package edu.stachtiedmann.person;
  * @version 1.0
  * @since 28.04.2017
  */
-public class Kind {
-  public void wachsen(boolean schnell){
+public class Kind extends Person implements Frech<Person> {
+  public void wachsen(boolean schnell) {
+
+  }
+
+  @Override
+  public boolean aergern(Person p) {
+    return false;
+  }
+
+  @Override
+  public void zungeRausstecken() {
 
   }
 }

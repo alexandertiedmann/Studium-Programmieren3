@@ -13,7 +13,7 @@ public class Person {
   private Date geburtstag;
   public String name;
 
-  public void aelterWerden(){
+  public final void aelterWerden() {
 
   }
 }
