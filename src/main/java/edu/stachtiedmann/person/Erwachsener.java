@@ -1,5 +1,7 @@
 package edu.stachtiedmann.person;
 
+import java.util.ArrayList;
+
 /**
  * Klasse Erwachsener
  *
@@ -8,5 +10,7 @@ package edu.stachtiedmann.person;
  * @since 28.04.2017
  */
 public class Erwachsener {
+  private ArrayList<Kind> hat;
+
   public final String WUTSCHREI = "AHHHHH";
 }

@@ -8,6 +8,8 @@ package edu.stachtiedmann.person;
  * @since 28.04.2017
  */
 public class Kind extends Person implements Frech<Person> {
+  Kuscheltier[] besitzt = new Kuscheltier[2];
+
   public void wachsen(boolean schnell) {
 
   }

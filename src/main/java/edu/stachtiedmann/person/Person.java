@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Person {
   private Date geburtstag;
-  public String name;
+  protected String name;
 
   public final void aelterWerden() {
 

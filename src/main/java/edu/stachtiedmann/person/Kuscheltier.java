@@ -7,5 +7,6 @@ package edu.stachtiedmann.person;
  * @version 1.0
  * @since 28.04.2017
  */
-public class Kuscheltier {
+public abstract class Kuscheltier {
+  public abstract void kuscheln();
 }
