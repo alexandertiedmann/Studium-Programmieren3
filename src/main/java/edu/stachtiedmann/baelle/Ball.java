@@ -17,6 +17,13 @@ public class Ball {
   private int dx = 2;
   private int dy = 2;
   private Thread thread;
+  private BallInterruptMessage ballInterruptMessage;
+
+  private enum BallInterruptMessage {
+    PAUSE_BALL,
+    RESUME_BALL,
+    DELETE_BALL
+  }
 
   /**
    * erstellt einen Ball, der in das angegebene Panel gezeichnet wird
@@ -88,15 +95,35 @@ public class Ball {
   public void huepfen(int dauer) {
     thread = new Thread(() -> {
       this.draw();
-      for (int i = 1; i <= dauer; i++) {
-        this.move();
-        try {
-          Thread.sleep(5);
-        } catch (InterruptedException e) {
+      for (int i = 1; i <= dauer; ) {
+
+        synchronized (Ball.this) {
+          try {
+            if (Thread.interrupted()) {
+
+              if(Ball.this.ballInterruptMessage.equals(BallInterruptMessage.DELETE_BALL)) {
+                break;
+              } else if(Ball.this.ballInterruptMessage.equals(BallInterruptMessage.PAUSE_BALL)) {
+                this.wait();
+              } else if (Ball.this.ballInterruptMessage.equals(BallInterruptMessage.RESUME_BALL)) {
+                this.notify();
+              }
+
+            } else {
+              this.move();
+              Thread.sleep(5);
+              i++;
+            }
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+          }
         }
+
+
       }
       this.loeschen();
     });
+
 
     thread.start();
   }
@@ -105,21 +132,23 @@ public class Ball {
    * Stoppt das huepfen des Balls
    */
   public void stoppen() {
-    thread.suspend();
+    this.ballInterruptMessage = BallInterruptMessage.PAUSE_BALL;
+    thread.interrupt();
   }
 
   /**
    * Laesst den Ball weiterhuepfen
    */
   public void weiter() {
-    thread.resume();
+    this.ballInterruptMessage = BallInterruptMessage.RESUME_BALL;
+    thread.interrupt();
   }
 
   /**
    * Löscht den ball und stoppt den thread
    */
   public void loeschenUndStoppen() {
-    thread.stop();
-    loeschen();
+    this.ballInterruptMessage = BallInterruptMessage.DELETE_BALL;
+    thread.interrupt();
   }
 }
