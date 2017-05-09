@@ -3,6 +3,9 @@ package edu.stachtiedmann.baelle;
 import javax.swing.*;
 import java.awt.*;
 
+import static java.lang.Thread.interrupted;
+import static java.lang.Thread.sleep;
+
 /**
  * ein huepfender Ball
  *
@@ -99,19 +102,19 @@ public class Ball {
 
         synchronized (Ball.this) {
           try {
-            if (Thread.interrupted()) {
+            if (interrupted()) {
 
               if(Ball.this.ballInterruptMessage.equals(BallInterruptMessage.DELETE_BALL)) {
                 break;
               } else if(Ball.this.ballInterruptMessage.equals(BallInterruptMessage.PAUSE_BALL)) {
-                this.wait();
+                wait();
               } else if (Ball.this.ballInterruptMessage.equals(BallInterruptMessage.RESUME_BALL)) {
-                this.notify();
+                notify();
               }
 
             } else {
               this.move();
-              Thread.sleep(5);
+              sleep(5);
               i++;
             }
           } catch (InterruptedException e) {
