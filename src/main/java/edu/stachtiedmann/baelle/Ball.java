@@ -16,6 +16,7 @@ public class Ball {
   private int y = 0;
   private int dx = 2;
   private int dy = 2;
+  private Thread thread;
 
   /**
    * erstellt einen Ball, der in das angegebene Panel gezeichnet wird
@@ -48,8 +49,10 @@ public class Ball {
    * bewegt den Ball einen Schritt weiter
    */
   public void move() {
-    if (!box.isVisible())
+    if (!box.isVisible()) {
       return;
+    }
+
     Graphics g = box.getGraphics();
     g.setXORMode(box.getBackground());
     g.fillOval(x, y, XSIZE, YSIZE);
@@ -83,14 +86,40 @@ public class Ball {
    * @param dauer Anzahl der Schritte
    */
   public void huepfen(int dauer) {
-    this.draw();
-    for (int i = 1; i <= dauer; i++) {
-      this.move();
-      try {
-        Thread.sleep(5);
-      } catch (InterruptedException e) {
+    thread = new Thread(() -> {
+      this.draw();
+      for (int i = 1; i <= dauer; i++) {
+        this.move();
+        try {
+          Thread.sleep(5);
+        } catch (InterruptedException e) {
+        }
       }
-    }
-    this.loeschen();
+      this.loeschen();
+    });
+
+    thread.start();
+  }
+
+  /**
+   * Stoppt das huepfen des Balls
+   */
+  public void stoppen() {
+    thread.suspend();
+  }
+
+  /**
+   * Laesst den Ball weiterhuepfen
+   */
+  public void weiter() {
+    thread.resume();
+  }
+
+  /**
+   * Löscht den ball und stoppt den thread
+   */
+  public void loeschenUndStoppen() {
+    thread.stop();
+    loeschen();
   }
 }
