@@ -28,7 +28,7 @@ public class Ballspiel {
    */
   public void ballStarten() {
     Random r = new Random();
-    int dauer = r.nextInt(500) + 1000; //Zufallszahl zwischen 1000 und 1500
+    int dauer = r.nextInt(500) + 10000; //Zufallszahl zwischen 1000 und 1500
     Ball b = new Ball(f.getZeichenflaeche());
     b.huepfen(dauer);
 
