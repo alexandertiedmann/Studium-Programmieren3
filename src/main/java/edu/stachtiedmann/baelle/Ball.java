@@ -100,15 +100,15 @@ public class Ball {
       this.draw();
       for (int i = 1; i <= dauer; ) {
 
-        synchronized (Ball.this) {
+        synchronized (this) {
           try {
             if (interrupted()) {
 
-              if(Ball.this.ballInterruptMessage.equals(BallInterruptMessage.DELETE_BALL)) {
+              if (ballInterruptMessage.equals(BallInterruptMessage.DELETE_BALL)) {
                 break;
-              } else if(Ball.this.ballInterruptMessage.equals(BallInterruptMessage.PAUSE_BALL)) {
+              } else if (ballInterruptMessage.equals(BallInterruptMessage.PAUSE_BALL)) {
                 wait();
-              } else if (Ball.this.ballInterruptMessage.equals(BallInterruptMessage.RESUME_BALL)) {
+              } else if (ballInterruptMessage.equals(BallInterruptMessage.RESUME_BALL)) {
                 notify();
               }
 
