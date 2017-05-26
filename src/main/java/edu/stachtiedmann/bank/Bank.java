@@ -1,6 +1,7 @@
 package edu.stachtiedmann.bank;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Christoph Stach on 4/21/17.
@@ -158,4 +159,35 @@ public class Bank {
 
 
   }
+
+  /**
+   * Sperrt alle Pleitegeier
+   */
+  public void pleitegeierSperren() {
+    konten.forEach((key, konto) -> {
+      if (konto.getKontostand() < 0) {
+        konto.sperren();
+      }
+    });
+  }
+
+  /**
+   * Die Methode liefert eine Liste aller Kunden, die auf einem Konto einen Kontostand
+   * haben, der mindestens minimum beträgt.
+   *
+   * @param minimum Das minimum
+   * @return Eine Kundenliste
+   */
+  public List<Kunde> getKundenMitVollemKonto(double minimum) {
+    return konten
+      .values()
+      .stream()
+      .filter(konto -> konto.getKontostand() >= minimum)
+      .map(Konto::getInhaber)
+      .distinct()
+      .sorted(Comparator.comparing(Kunde::getNachname))
+      .collect(Collectors.toList());
+  }
+
+
 }
