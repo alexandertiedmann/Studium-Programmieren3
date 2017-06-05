@@ -1,5 +1,6 @@
 package edu.stachtiedmann.bank;
 
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -8,7 +9,7 @@ import java.util.stream.Collectors;
  * <p>
  * Klasse zur Verwaltung einer Bank.
  */
-public class Bank {
+public class Bank implements Cloneable,Serializable{
   private Map<Long, Konto> konten = new HashMap<Long, Konto>();
   private long currentKontoNr = 0;
   private long bankleitzahl;
@@ -189,5 +190,23 @@ public class Bank {
       .collect(Collectors.toList());
   }
 
+  @Override
+  public Object clone() throws CloneNotSupportedException{
+    byte[] aktBank=null;
+    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()){
+      ObjectOutputStream oos = new ObjectOutputStream(baos);
+      oos.writeObject(this);
+      aktBank = baos.toByteArray();
+    }catch (IOException e){
 
+    }
+    try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(aktBank))){
+      return ois.readObject();
+    }catch (IOException e){
+
+    }catch (ClassNotFoundException e){
+
+    }
+    return null;
+  }
 }

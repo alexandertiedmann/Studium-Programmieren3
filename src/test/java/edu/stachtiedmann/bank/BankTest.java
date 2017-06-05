@@ -159,4 +159,25 @@ public class BankTest extends TestCase {
       fail();
     }
   }
+
+  /**
+   * Test von clone
+   * einzahlung auf ein Konto der ersten Bank
+   * Kontostaende sollten unterschiedlich sein
+   */
+  public void testClone(){
+    try {
+      Bank b2 = (Bank)b1.clone();
+      if (b2.equals(null)){
+        fail();
+      }else{
+        b1.geldEinzahlen(1,10);
+        assertTrue(b1.getKontostand(1) != b2.getKontostand(1));
+        assertTrue(b1.getKontostand(1)==10);
+        assertTrue(b2.getKontostand(1)==0);
+      }
+    }catch (CloneNotSupportedException e){
+      fail();
+    }
+  }
 }

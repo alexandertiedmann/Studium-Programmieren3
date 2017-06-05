@@ -1,11 +1,13 @@
 package edu.stachtiedmann.bank;
 
+import java.io.Serializable;
+
 /**
  * Created by Christoph Stach on 4/11/17.
  * <p>
  * Stellt den Umrechnungskurs der Währungen zum Euro bereit
  */
-public enum Waehrung {
+public enum Waehrung implements Serializable{
   EUR(1),
   BGN(1.95583),
   LTL(1.95583),

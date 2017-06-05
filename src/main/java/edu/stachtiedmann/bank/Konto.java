@@ -1,9 +1,11 @@
 package edu.stachtiedmann.bank;
 
+import java.io.Serializable;
+
 /**
  * stellt ein allgemeines Konto dar
  */
-public abstract class Konto {
+public abstract class Konto implements Serializable {
   private Waehrung waehrung;
   /**
    * der Kontoinhaber
