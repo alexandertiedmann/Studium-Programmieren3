@@ -9,10 +9,9 @@ public abstract class Kontofabrik {
   /**
    * Erstellt ein neues Konto
    *
-   * @param cls     Die Klasse
    * @param inhaber Der Inhaber
    * @param kontoNr Die KontoNr
    * @return Das neue Konto
    */
-  public abstract Konto erstellen(Class<? extends Konto> cls, Kunde inhaber, long kontoNr) throws InstantiationException;
+  public abstract Konto erstellen(Kunde inhaber, long kontoNr) throws InstantiationException;
 }

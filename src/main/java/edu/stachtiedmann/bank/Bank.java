@@ -47,12 +47,11 @@ public class Bank implements Cloneable, Serializable {
    * Erstellt ein neues Konto mit der Kontofabrik
    *
    * @param kontofabrik Die Kontofabrik
-   * @param cls         Die Klasse
    * @param inhaber     Der Inhaber des Kontos
    * @return Die neue KontoNr
    */
-  public long kontoErstellen(Kontofabrik kontofabrik, Class<? extends Konto> cls, Kunde inhaber) throws InstantiationException {
-    konten.put(currentKontoNr, kontofabrik.erstellen(cls, inhaber, currentKontoNr));
+  public long kontoErstellen(Kontofabrik kontofabrik, Kunde inhaber) throws InstantiationException {
+    konten.put(currentKontoNr, kontofabrik.erstellen(inhaber, currentKontoNr));
 
     return currentKontoNr++;
   }

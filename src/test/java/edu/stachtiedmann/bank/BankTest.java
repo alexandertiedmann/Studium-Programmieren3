@@ -15,28 +15,30 @@ import java.util.List;
 public class BankTest extends TestCase {
   private Bank b1;
   private Kunde k1, k2;
-  private Kontofabrik kf;
+  private Kontofabrik gkf;
+  private Kontofabrik sbf;
 
   /**
    * Erstellt eine neue Bank und zwei neue Kunden
    * fuer jeden Kunden ein Konto
    */
   protected void setUp() throws InstantiationException {
-    kf = new StandardKontofabrik();
+    gkf = new GirokontoFabrik();
+    sbf = new SparbuchFabrik();
     b1 = new Bank(12345);
     k1 = new Kunde("Hans", "Mueller", "Teststr.", "24.12.00");
     k2 = new Kunde("Otto", "Schulz", "Inderstr.", "10.06.99");
-    b1.kontoErstellen(kf, Girokonto.class, k1);
-    b1.kontoErstellen(kf, Girokonto.class, k2);
+    b1.kontoErstellen(gkf, k1);
+    b1.kontoErstellen(gkf, k2);
   }
 
   /**
    * test von girokontoErstellen
    */
   public void testGirokontoErstellen() throws InstantiationException {
-    long kontonr = b1.kontoErstellen(kf, Girokonto.class, k1);
+    long kontonr = b1.kontoErstellen(gkf, k1);
     assertTrue(kontonr == 2);
-    long kontonr2 = b1.kontoErstellen(kf, Girokonto.class, k2);
+    long kontonr2 = b1.kontoErstellen(gkf, k2);
     assertTrue(kontonr2 == 3);
   }
 
@@ -44,9 +46,9 @@ public class BankTest extends TestCase {
    * Test von sparbuchErstellen
    */
   public void testSparbuchErstellen() throws InstantiationException {
-    long kontonr = b1.kontoErstellen(kf, Sparbuch.class, k1);
+    long kontonr = b1.kontoErstellen(sbf, k1);
     assertTrue(kontonr == 2);
-    long kontonr2 = b1.kontoErstellen(kf, Sparbuch.class, k2);
+    long kontonr2 = b1.kontoErstellen(sbf, k2);
     assertTrue(kontonr2 == 3);
   }
 
@@ -153,7 +155,7 @@ public class BankTest extends TestCase {
    * Versuch mit Sparbuch sollte fehlschlagen
    */
   public void testGeldUeberweisenFail() throws InstantiationException {
-    b1.kontoErstellen(kf, Sparbuch.class, k1);
+    b1.kontoErstellen(sbf, k1);
 
     try {
       assertFalse(b1.geldUeberweisen(2, 1, 5000, "Testueberweisung"));
