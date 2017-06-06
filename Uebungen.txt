@@ -1,5 +1,5 @@
 Repository:
-https://studi.f4.htw-berlin.de/git/s0555912/bank_project.git
+https://github.com/christophstach/bank-project-sturdy-garbanzo.git
 
 Bearbeiter: Christoph Stach (s0555912)
 			Alexander Tiedmann (s0556127)
