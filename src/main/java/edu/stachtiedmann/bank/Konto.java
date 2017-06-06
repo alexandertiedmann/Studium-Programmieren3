@@ -136,7 +136,7 @@ public abstract class Konto implements Serializable {
   public String toString() {
     String ausgabe;
     ausgabe = "Kontonummer: " + this.getKontonummerFormatiert()
-            + System.getProperty("line.separator");
+      + System.getProperty("line.separator");
     ausgabe += "Inhaber: " + this.inhaber;
     ausgabe += "Aktueller Kontostand: " + this.kontostand + " Euro ";
     ausgabe += this.getGesperrtText() + System.getProperty("line.separator");
@@ -152,7 +152,38 @@ public abstract class Konto implements Serializable {
    * @throws GesperrtException        wenn das Konto gesperrt ist
    * @throws IllegalArgumentException wenn der betrag negativ ist
    */
-  public abstract boolean abheben(double betrag) throws GesperrtException;
+  public final boolean abheben(double betrag) throws GesperrtException {
+    //immer gleich:
+    //Betrag groesser als 0
+    if (betrag < 0) {
+      throw new IllegalArgumentException();
+    }
+    //Konto ist nicht gesperrt
+    if (this.isGesperrt())
+      throw new GesperrtException(this.getKontonummer());
+    //Pruefung auf weitere Regeln --> wenn abgehoben werden darf --> Kontostand verringern
+    if (this.reichtStand(betrag)) {
+      setKontostand(getKontostand() - betrag);
+      sonderAktion(betrag);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Zusaetzliche Aktionen beim abheben
+   * @param betrag
+   */
+  protected void sonderAktion(double betrag){}
+
+  /**
+   * Test ob der Kontostand fuer die Transaktion reicht
+   *
+   * @param betrag abzuhebender Betrag
+   * @return true wenn es reicht
+   */
+  public abstract boolean reichtStand(double betrag);
 
   /**
    * sperrt das Konto, Aktionen zum Schaden des Benutzers sind nicht mehr m�glich.

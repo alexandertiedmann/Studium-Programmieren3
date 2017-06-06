@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Doro
  */
-public class Girokonto extends Konto implements Serializable{
+public class Girokonto extends Konto implements Serializable {
   /**
    * Wert, bis zu dem das Konto überzogen werden darf
    */
@@ -104,12 +104,12 @@ public class Girokonto extends Konto implements Serializable{
   @Override
   public String toString() {
     String ausgabe = "-- GIROKONTO --" + System.lineSeparator() +
-            super.toString()
-            + "Dispo: " + this.dispo + System.lineSeparator();
+      super.toString()
+      + "Dispo: " + this.dispo + System.lineSeparator();
     return ausgabe;
   }
 
-  @Override
+  /*@Override
   public boolean abheben(double betrag) throws GesperrtException {
     if (betrag < 0) {
       throw new IllegalArgumentException();
@@ -118,6 +118,14 @@ public class Girokonto extends Konto implements Serializable{
       throw new GesperrtException(this.getKontonummer());
     if (getKontostand() - betrag >= -dispo) {
       setKontostand(getKontostand() - betrag);
+      return true;
+    } else
+      return false;
+  }*/
+
+  public boolean reichtStand(double betrag) {
+    //Endkontostand geht nicht unter Dispo
+    if (getKontostand() - betrag >= -dispo) {
       return true;
     } else
       return false;
