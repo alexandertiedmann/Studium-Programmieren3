@@ -8,7 +8,7 @@ import java.time.LocalDate;
  *
  * @author Doro
  */
-public class Sparbuch extends Konto implements Serializable{
+public class Sparbuch extends Konto implements Serializable {
   /**
    * Zinssatz, mit dem das Sparbuch verzinst wird. 0,03 entspricht 3%
    */
@@ -40,20 +40,34 @@ public class Sparbuch extends Konto implements Serializable{
   @Override
   public String toString() {
     String ausgabe = "-- SPARBUCH --" + System.lineSeparator() +
-            super.toString()
-            + "Zinssatz: " + this.zinssatz * 100 + "%" + System.lineSeparator();
+      super.toString()
+      + "Zinssatz: " + this.zinssatz * 100 + "%" + System.lineSeparator();
     return ausgabe;
   }
 
   @Override
+  public boolean reichtStand(double betrag) {
+    LocalDate heute = LocalDate.now();
+    //heute noch nicht abgehoben
+    if (heute.getMonth() != zeitpunkt.getMonth() || heute.getYear() != zeitpunkt.getYear()) {
+      this.bereitsAbgehoben = 0;
+    }
+    //Endkontostand geht nicht unter Mindestbetrag
+    if (getKontostand() - betrag >= 0.50 && bereitsAbgehoben + betrag <= Sparbuch.ABHEBESUMME) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  protected void sonderAktion(double betrag){
+    this.bereitsAbgehoben += betrag;
+  }
+
+  /*
+  @Override
   public boolean abheben(double betrag) throws GesperrtException {
-    if (betrag < 0) {
-      throw new IllegalArgumentException();
-    }
-    if (this.isGesperrt()) {
-      GesperrtException e = new GesperrtException(this.getKontonummer());
-      throw e;
-    }
     LocalDate heute = LocalDate.now();
     if (heute.getMonth() != zeitpunkt.getMonth() || heute.getYear() != zeitpunkt.getYear()) {
       this.bereitsAbgehoben = 0;
@@ -66,5 +80,5 @@ public class Sparbuch extends Konto implements Serializable{
     } else
       return false;
   }
-
+  */
 }

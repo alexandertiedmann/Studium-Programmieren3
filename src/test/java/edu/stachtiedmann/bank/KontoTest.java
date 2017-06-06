@@ -39,6 +39,15 @@ public class KontoTest extends TestCase {
       //
     }
 
+    try {
+      //einzahlen damit maximum abgehoben werden kann
+      this.konto.einzahlen(100000);
+      //false, da mehr als Maximum abgehoben werden soll
+      assertFalse(this.konto.abheben(10000));
+    }catch (GesperrtException e){
+      fail();
+    }
+
     this.konto.sperren();
 
     try {
@@ -47,7 +56,6 @@ public class KontoTest extends TestCase {
     } catch (Exception e) {
       assertTrue(e instanceof GesperrtException);
     }
-
   }
 
   /**
