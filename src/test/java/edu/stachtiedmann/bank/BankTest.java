@@ -15,36 +15,38 @@ import java.util.List;
 public class BankTest extends TestCase {
   private Bank b1;
   private Kunde k1, k2;
+  private Kontofabrik kf;
 
   /**
    * Erstellt eine neue Bank und zwei neue Kunden
    * fuer jeden Kunden ein Konto
    */
-  protected void setUp() {
+  protected void setUp() throws InstantiationException {
+    kf = new StandardKontofabrik();
     b1 = new Bank(12345);
     k1 = new Kunde("Hans", "Mueller", "Teststr.", "24.12.00");
     k2 = new Kunde("Otto", "Schulz", "Inderstr.", "10.06.99");
-    b1.girokontoErstellen(k1);
-    b1.girokontoErstellen(k2);
+    b1.kontoErstellen(kf, Girokonto.class, k1);
+    b1.kontoErstellen(kf, Girokonto.class, k2);
   }
 
   /**
    * test von girokontoErstellen
    */
-  public void testGirokontoErstellen() {
-    long kontonr = b1.girokontoErstellen(k1);
+  public void testGirokontoErstellen() throws InstantiationException {
+    long kontonr = b1.kontoErstellen(kf, Girokonto.class, k1);
     assertTrue(kontonr == 2);
-    long kontonr2 = b1.girokontoErstellen(k2);
+    long kontonr2 = b1.kontoErstellen(kf, Girokonto.class, k2);
     assertTrue(kontonr2 == 3);
   }
 
   /**
    * Test von sparbuchErstellen
    */
-  public void testSparbuchErstellen() {
-    long kontonr = b1.sparbuchErstellen(k1);
+  public void testSparbuchErstellen() throws InstantiationException {
+    long kontonr = b1.kontoErstellen(kf, Sparbuch.class, k1);
     assertTrue(kontonr == 2);
-    long kontonr2 = b1.sparbuchErstellen(k2);
+    long kontonr2 = b1.kontoErstellen(kf, Sparbuch.class, k2);
     assertTrue(kontonr2 == 3);
   }
 
@@ -150,9 +152,9 @@ public class BankTest extends TestCase {
    * Test von geldUeberweisen (aufruf von testGeldEinzahlen)
    * Versuch mit Sparbuch sollte fehlschlagen
    */
-  public void testGeldUeberweisenFail() {
-    b1.sparbuchErstellen(k1);
-    
+  public void testGeldUeberweisenFail() throws InstantiationException {
+    b1.kontoErstellen(kf, Sparbuch.class, k1);
+
     try {
       assertFalse(b1.geldUeberweisen(2, 1, 5000, "Testueberweisung"));
     } catch (GesperrtException e) {
@@ -165,18 +167,18 @@ public class BankTest extends TestCase {
    * einzahlung auf ein Konto der ersten Bank
    * Kontostaende sollten unterschiedlich sein
    */
-  public void testClone(){
+  public void testClone() {
     try {
-      Bank b2 = (Bank)b1.clone();
-      if (b2.equals(null)){
+      Bank b2 = (Bank) b1.clone();
+      if (b2.equals(null)) {
         fail();
-      }else{
-        b1.geldEinzahlen(1,10);
+      } else {
+        b1.geldEinzahlen(1, 10);
         assertTrue(b1.getKontostand(1) != b2.getKontostand(1));
-        assertTrue(b1.getKontostand(1)==10);
-        assertTrue(b2.getKontostand(1)==0);
+        assertTrue(b1.getKontostand(1) == 10);
+        assertTrue(b2.getKontostand(1) == 0);
       }
-    }catch (CloneNotSupportedException e){
+    } catch (CloneNotSupportedException e) {
       fail();
     }
   }

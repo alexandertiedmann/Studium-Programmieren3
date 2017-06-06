@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * <p>
  * Klasse zur Verwaltung einer Bank.
  */
-public class Bank implements Cloneable,Serializable{
+public class Bank implements Cloneable, Serializable {
   private Map<Long, Konto> konten = new HashMap<Long, Konto>();
   private long currentKontoNr = 0;
   private long bankleitzahl;
@@ -44,25 +44,15 @@ public class Bank implements Cloneable,Serializable{
   }
 
   /**
-   * Erstellt ein neues Girokonto für den Kunden und gibt die KontoNr zurück.
+   * Erstellt ein neues Konto mit der Kontofabrik
    *
-   * @param inhaber Kunde
-   * @return Neue KontoNr
+   * @param kontofabrik Die Kontofabrik
+   * @param cls         Die Klasse
+   * @param inhaber     Der Inhaber des Kontos
+   * @return Die neue KontoNr
    */
-  public long girokontoErstellen(Kunde inhaber) {
-    konten.put(currentKontoNr, new Girokonto(inhaber, currentKontoNr, 0));
-
-    return currentKontoNr++;
-  }
-
-  /**
-   * Erstellt ein neues Sparbuch für den Kunden und gibt die KontoNr zurück.
-   *
-   * @param inhaber Kunde
-   * @return Neue KontoNr
-   */
-  public long sparbuchErstellen(Kunde inhaber) {
-    konten.put(currentKontoNr, new Sparbuch(inhaber, currentKontoNr));
+  public long kontoErstellen(Kontofabrik kontofabrik, Class<? extends Konto> cls, Kunde inhaber) throws InstantiationException {
+    konten.put(currentKontoNr, kontofabrik.erstellen(cls, inhaber, currentKontoNr));
 
     return currentKontoNr++;
   }
@@ -191,20 +181,20 @@ public class Bank implements Cloneable,Serializable{
   }
 
   @Override
-  public Object clone() throws CloneNotSupportedException{
-    byte[] aktBank=null;
-    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()){
+  public Object clone() throws CloneNotSupportedException {
+    byte[] aktBank = null;
+    try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
       ObjectOutputStream oos = new ObjectOutputStream(baos);
       oos.writeObject(this);
       aktBank = baos.toByteArray();
-    }catch (IOException e){
+    } catch (IOException e) {
 
     }
-    try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(aktBank))){
+    try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(aktBank))) {
       return ois.readObject();
-    }catch (IOException e){
+    } catch (IOException e) {
 
-    }catch (ClassNotFoundException e){
+    } catch (ClassNotFoundException e) {
 
     }
     return null;
