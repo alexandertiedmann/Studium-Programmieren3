@@ -1,11 +1,14 @@
 package edu.stachtiedmann.bank;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * stellt ein allgemeines Konto dar
  */
 public abstract class Konto implements Serializable {
+  private List<Observer> observerlist = new LinkedList<>();
   private Waehrung waehrung;
   /**
    * der Kontoinhaber
@@ -29,6 +32,7 @@ public abstract class Konto implements Serializable {
    */
   protected void setKontostand(double kontostand) {
     this.kontostand = kontostand;
+    notifyObserver();
   }
 
   /**
@@ -86,7 +90,7 @@ public abstract class Konto implements Serializable {
     if (this.gesperrt)
       throw new GesperrtException(this.nummer);
     this.inhaber = kinh;
-
+    notifyObserver();
   }
 
   /**
@@ -173,9 +177,11 @@ public abstract class Konto implements Serializable {
 
   /**
    * Zusaetzliche Aktionen beim abheben
+   *
    * @param betrag
    */
-  protected void sonderAktion(double betrag){}
+  protected void sonderAktion(double betrag) {
+  }
 
   /**
    * Test ob der Kontostand fuer die Transaktion reicht
@@ -190,6 +196,7 @@ public abstract class Konto implements Serializable {
    */
   public final void sperren() {
     this.gesperrt = true;
+    notifyObserver();
   }
 
   /**
@@ -197,6 +204,7 @@ public abstract class Konto implements Serializable {
    */
   public final void entsperren() {
     this.gesperrt = false;
+    notifyObserver();
   }
 
 
@@ -286,5 +294,38 @@ public abstract class Konto implements Serializable {
     }
 
     this.waehrung = waehrung;
+    notifyObserver();
   }
+
+  /**
+   * returns the list of Observers
+   * @return observerlist
+   */
+  public List<Observer> getObserverlist(){
+    return observerlist;
+  }
+
+  /**
+   * adds new Observer
+   * @param ob new Observer
+   */
+  public void addObserver(Observer ob){
+    observerlist.add(ob);
+  }
+
+  /**
+   * deletes a Observer
+   * @param ob Observer to delete
+   */
+  public void deleteObserver(Observer ob){
+    observerlist.remove(ob);
+  }
+
+  /**
+   * notifies all Observer
+   */
+  protected void notifyObserver(){
+    Bank.notifyObserver(this);
+  }
+
 }

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
  * Klasse zur Verwaltung einer Bank.
  */
 public class Bank implements Cloneable, Serializable {
+  private List<Observer> observerlist = new LinkedList<>();
   private Map<Long, Konto> konten = new HashMap<Long, Konto>();
   private long currentKontoNr = 0;
   private long bankleitzahl;
@@ -197,5 +198,36 @@ public class Bank implements Cloneable, Serializable {
 
     }
     return null;
+  }
+
+  /**
+   * Adds a Observer to konto
+   *
+   * @param ob          new Observer
+   * @param kontonummer konto
+   */
+  protected void addObserver(Observer ob, long kontonummer) {
+    observerlist.add(ob);
+    konten.get(kontonummer).addObserver(ob);
+  }
+
+  /**
+   * delete a Observer from konto
+   *
+   * @param ob          Observer to delete
+   * @param kontonummer konto
+   */
+  protected void deleteObserver(Observer ob, long kontonummer) {
+    observerlist.remove(ob);
+    konten.get(kontonummer).deleteObserver(ob);
+  }
+
+  /**
+   * Notifies all Observer from konto
+   *
+   * @param konto
+   */
+  static void notifyObserver(Konto konto) {
+    konto.getObserverlist().forEach(b -> b.update(konto));
   }
 }

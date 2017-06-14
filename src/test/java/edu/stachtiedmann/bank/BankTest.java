@@ -17,6 +17,7 @@ public class BankTest extends TestCase {
   private Kunde k1, k2;
   private Kontofabrik gkf;
   private Kontofabrik sbf;
+  private Observer ob1,ob2;
 
   /**
    * Erstellt eine neue Bank und zwei neue Kunden
@@ -30,6 +31,8 @@ public class BankTest extends TestCase {
     k2 = new Kunde("Otto", "Schulz", "Inderstr.", "10.06.99");
     b1.kontoErstellen(gkf, k1);
     b1.kontoErstellen(gkf, k2);
+    ob1 = new ConsolObserver();
+    ob2 = new ConsolObserver();
   }
 
   /**
@@ -181,6 +184,21 @@ public class BankTest extends TestCase {
         assertTrue(b2.getKontostand(1) == 0);
       }
     } catch (CloneNotSupportedException e) {
+      fail();
+    }
+  }
+
+  /**
+   * Manueller Test ob der ConsoleObserver auf die Konsole schreibt
+   */
+  public void testObserver(){
+    try {
+      b1.addObserver(ob1,1);
+      b1.addObserver(ob2,0);
+      b1.geldEinzahlen(1,100);
+      b1.geldAbheben(1,10);
+      b1.geldEinzahlen(0,33);
+    }catch (Exception e){
       fail();
     }
   }
