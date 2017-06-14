@@ -299,32 +299,35 @@ public abstract class Konto implements Serializable {
 
   /**
    * returns the list of Observers
+   *
    * @return observerlist
    */
-  public List<Observer> getObserverlist(){
+  public List<Observer> getObserverlist() {
     return observerlist;
   }
 
   /**
    * adds new Observer
+   *
    * @param ob new Observer
    */
-  public void addObserver(Observer ob){
+  public void addObserver(Observer ob) {
     observerlist.add(ob);
   }
 
   /**
    * deletes a Observer
+   *
    * @param ob Observer to delete
    */
-  public void deleteObserver(Observer ob){
+  public void deleteObserver(Observer ob) {
     observerlist.remove(ob);
   }
 
   /**
    * notifies all Observer
    */
-  protected void notifyObserver(){
+  protected void notifyObserver() {
     Bank.notifyObserver(this);
   }
 

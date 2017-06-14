@@ -10,6 +10,7 @@ package edu.stachtiedmann.bank;
 public interface Observer {
   /**
    * aufruf bei aenderungen
+   *
    * @param subject zu beobachtendes Subjekt
    */
   public void update(Object subject);
