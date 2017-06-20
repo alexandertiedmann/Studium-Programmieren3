@@ -25,10 +25,8 @@ public class FxApp extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    KontoOberflaecheController kontoOberflaecheController = new KontoOberflaecheController();
+    KontoOberflaecheController kontoOberflaecheController = new KontoOberflaecheController(primaryStage);
 
-    primaryStage.setScene(new Scene(kontoOberflaecheController.getView()));
     primaryStage.show();
-
   }
 }

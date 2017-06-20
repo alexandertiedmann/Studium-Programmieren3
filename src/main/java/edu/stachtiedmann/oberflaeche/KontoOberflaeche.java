@@ -1,5 +1,6 @@
 package edu.stachtiedmann.oberflaeche;
 
+import edu.stachtiedmann.bank.Konto;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,6 +23,8 @@ import javafx.scene.text.Text;
  * @author Doro
  */
 public class KontoOberflaeche extends BorderPane {
+  private KontoOberflaecheController controller;
+  private Konto model;
   private Text ueberschrift;
   private GridPane anzeige;
   private Text txtNummer;
@@ -65,7 +68,10 @@ public class KontoOberflaeche extends BorderPane {
   /**
    * erstellt die Oberfläche
    */
-  public KontoOberflaeche() {
+  public KontoOberflaeche(KontoOberflaecheController controller, Konto model) {
+    this.controller = controller;
+    this.model = model;
+
     ueberschrift = new Text("Ein Konto verändern");
     ueberschrift.setFont(new Font("Sans Serif", 25));
     BorderPane.setAlignment(ueberschrift, Pos.CENTER);
@@ -89,6 +95,11 @@ public class KontoOberflaeche extends BorderPane {
     anzeige.add(txtStand, 0, 1);
     stand = new Text();
     stand.setFont(new Font("Sans Serif", 15));
+    if (model.isPositive()) {
+      stand.setFill(Color.BLACK);
+    } else {
+      stand.setFill(Color.RED);
+    }
     GridPane.setHalignment(stand, HPos.RIGHT);
     anzeige.add(stand, 1, 1);
 
@@ -119,7 +130,8 @@ public class KontoOberflaeche extends BorderPane {
     aktionen.setSpacing(10);
     aktionen.setAlignment(Pos.CENTER);
 
-    betrag = new Spinner<>(10, 100, 50, 10);
+
+    betrag = new Spinner<>(10d, 100d, 50d, 10d);
     aktionen.getChildren().add(betrag);
     einzahlen = new Button("Einzahlen");
     aktionen.getChildren().add(einzahlen);
@@ -127,5 +139,27 @@ public class KontoOberflaeche extends BorderPane {
     aktionen.getChildren().add(abheben);
 
     this.setBottom(aktionen);
+
+    this.registerBindings();
+  }
+
+  /**
+   * Registriert bindings und listener
+   */
+  private void registerBindings() {
+    nummer.textProperty().set(model.getKontonummerFormatiert());
+    stand.textProperty().bind(model.kontostandProperty().asString());
+    model.positiveProperty().addListener(observable -> {
+      if (model.isPositive()) {
+        stand.setFill(Color.BLACK);
+      } else {
+        stand.setFill(Color.RED);
+      }
+    });
+    gesperrt.selectedProperty().bindBidirectional(model.gesperrtProperty());
+    adresse.textProperty().bindBidirectional(model.getInhaber().adresseProperty());
+
+    abheben.setOnAction(actionEvent -> controller.abhebenAction(betrag.getValue()));
+    einzahlen.setOnAction(actionEvent -> controller.einzahlenAction(betrag.getValue()));
   }
 }
