@@ -33,7 +33,7 @@ public abstract class Konto implements Serializable {
    */
   private final BooleanProperty gesperrt = new SimpleBooleanProperty(false);
 
-  private final ReadOnlyBooleanWrapper positive = new ReadOnlyBooleanWrapper();
+  private final ReadOnlyBooleanWrapper positive = new ReadOnlyBooleanWrapper(true);
 
   /**
    * Setzt die beiden Eigenschaften kontoinhaber und kontonummer auf die angegebenen Werte,
