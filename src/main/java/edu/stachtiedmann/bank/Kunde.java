@@ -1,5 +1,8 @@
 package edu.stachtiedmann.bank;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,7 +48,7 @@ public class Kunde implements Comparable<Kunde>,Serializable {
   /**
    * Die Adresse
    */
-  private String adresse;
+  private StringProperty adresse = new SimpleStringProperty();
   /**
    * Geburtstag
    */
@@ -73,7 +76,7 @@ public class Kunde implements Comparable<Kunde>,Serializable {
     }
     this.vorname = vorname;
     this.nachname = nachname;
-    this.adresse = adresse;
+    this.adresse.set(adresse);
     this.geburtstag = gebdat;
   }
 
@@ -104,7 +107,7 @@ public class Kunde implements Comparable<Kunde>,Serializable {
   }
 
   /**
-   * vollst�ndiger Name des Kunden in der Form "Nachname, Vorname"
+   * vollständiger Name des Kunden in der Form "Nachname, Vorname"
    *
    * @return
    */
@@ -118,7 +121,7 @@ public class Kunde implements Comparable<Kunde>,Serializable {
    * @return
    */
   public String getAdresse() {
-    return adresse;
+    return adresse.get();
   }
 
   /**
@@ -128,9 +131,14 @@ public class Kunde implements Comparable<Kunde>,Serializable {
    * @throw IllegalArgumentException wenn adresse null ist
    */
   public void setAdresse(String adresse) {
-    if (adresse == null)
+    if (adresse == null) {
       throw new IllegalArgumentException("Adresse darf nicht null sein");
-    this.adresse = adresse;
+    }
+    this.adresse.set(adresse);
+  }
+
+  public StringProperty adresseProperty() {
+    return adresse;
   }
 
   /**

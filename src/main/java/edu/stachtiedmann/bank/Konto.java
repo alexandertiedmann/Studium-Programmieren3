@@ -1,5 +1,7 @@
 package edu.stachtiedmann.bank;
 
+import javafx.beans.property.*;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,25 +23,17 @@ public abstract class Konto implements Serializable {
   private final long nummer;
 
   /**
-   * der aktuelle Kontostand
+   * Property fuer den Kontostand
    */
-  private double kontostand;
-
-  /**
-   * setzt den aktuellen Kontostand
-   *
-   * @param kontostand neuer Kontostand
-   */
-  protected void setKontostand(double kontostand) {
-    this.kontostand = kontostand;
-    notifyObserver();
-  }
+  private final ReadOnlyDoubleWrapper kontostand = new ReadOnlyDoubleWrapper(0);
 
   /**
    * Wenn das Konto gesperrt ist (gesperrt = true), können keine Aktionen daran mehr vorgenommen werden,
    * die zum Schaden des Kontoinhabers wären (abheben, Inhaberwechsel)
    */
-  private boolean gesperrt;
+  private final BooleanProperty gesperrt = new SimpleBooleanProperty(false);
+
+  private final ReadOnlyBooleanWrapper positive = new ReadOnlyBooleanWrapper();
 
   /**
    * Setzt die beiden Eigenschaften kontoinhaber und kontonummer auf die angegebenen Werte,
@@ -50,13 +44,13 @@ public abstract class Konto implements Serializable {
    * @throws IllegalArgumentException wenn der Inhaber null
    */
   public Konto(Kunde inhaber, long kontonummer) {
-    if (inhaber == null)
+    if (inhaber == null) {
       throw new IllegalArgumentException("Inhaber darf nicht null sein!");
+    }
     this.inhaber = inhaber;
     this.nummer = kontonummer;
-    this.kontostand = 0;
-    this.gesperrt = false;
     this.waehrung = Waehrung.EUR;
+    positive.bind(kontostand.greaterThanOrEqualTo(0));
   }
 
   /**
@@ -67,9 +61,42 @@ public abstract class Konto implements Serializable {
     this(Kunde.MUSTERMANN, 1234567);
   }
 
+  public double getKontostand() {
+    return kontostand.get();
+  }
+
+  public ReadOnlyDoubleProperty kontostandProperty() {
+    return kontostand;
+  }
+
+  public void setKontostand(double kontostand) {
+    this.kontostand.set(kontostand);
+    notifyObserver();
+  }
+
+  public BooleanProperty gesperrtProperty() {
+    return gesperrt;
+  }
+
+  public boolean isPositive() {
+    return positive.get();
+  }
+
+  public ReadOnlyBooleanProperty positiveProperty() {
+    return positive;
+  }
 
   /**
-   * liefert den Kontoinhaber zur�ck
+   * Gets nummer
+   *
+   * @return value of nummer
+   */
+  public long getKontonummer() {
+    return nummer;
+  }
+
+  /**
+   * liefert den Kontoinhaber zurück
    *
    * @return Kunde
    */
@@ -87,29 +114,12 @@ public abstract class Konto implements Serializable {
   public final void setInhaber(Kunde kinh) throws GesperrtException {
     if (kinh == null)
       throw new IllegalArgumentException("Der Inhaber darf nicht null sein!");
-    if (this.gesperrt)
+    if (this.gesperrt.get())
       throw new GesperrtException(this.nummer);
     this.inhaber = kinh;
     notifyObserver();
   }
 
-  /**
-   * liefert den aktuellen Kontostand
-   *
-   * @return double
-   */
-  public final double getKontostand() {
-    return kontostand;
-  }
-
-  /**
-   * liefert die Kontonummer zur�ck
-   *
-   * @return long
-   */
-  public final long getKontonummer() {
-    return nummer;
-  }
 
   /**
    * liefert zurück, ob das Konto gesperrt ist oder nicht
@@ -117,7 +127,7 @@ public abstract class Konto implements Serializable {
    * @return
    */
   public final boolean isGesperrt() {
-    return gesperrt;
+    return gesperrt.get();
   }
 
   /**
@@ -134,7 +144,7 @@ public abstract class Konto implements Serializable {
   }
 
   /**
-   * Gibt eine Zeichenkettendarstellung der Kontodaten zur�ck.
+   * Gibt eine Zeichenkettendarstellung der Kontodaten zurück.
    */
   @Override
   public String toString() {
@@ -192,18 +202,18 @@ public abstract class Konto implements Serializable {
   public abstract boolean reichtStand(double betrag);
 
   /**
-   * sperrt das Konto, Aktionen zum Schaden des Benutzers sind nicht mehr m�glich.
+   * sperrt das Konto, Aktionen zum Schaden des Benutzers sind nicht mehr möglich.
    */
   public final void sperren() {
-    this.gesperrt = true;
+    gesperrt.set(true);
     notifyObserver();
   }
 
   /**
-   * entsperrt das Konto, alle Kontoaktionen sind wieder m�glich.
+   * entsperrt das Konto, alle Kontoaktionen sind wieder möglich.
    */
   public final void entsperren() {
-    this.gesperrt = false;
+    gesperrt.set(false);
     notifyObserver();
   }
 
@@ -214,7 +224,7 @@ public abstract class Konto implements Serializable {
    * @return "GESPERRT", wenn das Konto gesperrt ist, ansonsten ""
    */
   public final String getGesperrtText() {
-    if (this.gesperrt) {
+    if (this.gesperrt.get()) {
       return "GESPERRT";
     } else {
       return "";
@@ -233,7 +243,7 @@ public abstract class Konto implements Serializable {
   /**
    * liefert den ordentlich formatierten Kontostand
    *
-   * @return formatierter Kontostand mit 2 Nachkommastellen und W�hrungssymbol �
+   * @return formatierter Kontostand mit 2 Nachkommastellen und Währungssymbol €
    */
   public String getKontostandFormatiert() {
     return String.format("%10.2f Euro", this.getKontostand());
