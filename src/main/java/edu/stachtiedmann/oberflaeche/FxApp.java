@@ -15,7 +15,7 @@ import java.time.LocalTime;
 /**
  * Created by Christoph Stach on 6/20/17.
  * <p>
- * FxApp
+ * FxmlApp
  */
 public class FxApp extends Application {
   /**

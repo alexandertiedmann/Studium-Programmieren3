@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import edu.stachtiedmann.bank.Girokonto?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+  <fx:define>
+    <Girokonto fx:id="model"/>
+  </fx:define>
+  <top>
+    <Text text="Ein Konto verändern" BorderPane.alignment="CENTER"/>
+  </top>
+  <center>
+    <GridPane>
+      <Text GridPane.columnIndex="0" GridPane.rowIndex="0" text="Kontonummer:"/>
+      <Text GridPane.columnIndex="1" GridPane.rowIndex="0" text="$model.kontonummer"/>
+
+      <Text GridPane.columnIndex="0" GridPane.rowIndex="1" text="Kontostand:"/>
+      <Text GridPane.columnIndex="1" GridPane.rowIndex="1" text="${model.kontostand}"/>
+
+      <Text GridPane.columnIndex="0" GridPane.rowIndex="2" text="Gesperrt:"/>
+      <CheckBox GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+      <Text GridPane.columnIndex="0" GridPane.rowIndex="3" text="Addresse:"/>
+      <TextArea GridPane.columnIndex="1" GridPane.rowIndex="3" text="${model.inhaber.adresse}"/>
+
+      <Text GridPane.columnIndex="0" GridPane.rowIndex="4" text="Willkommen lieber Benutzer"/>
+
+      <HBox GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2" alignment="CENTER">
+        <!--
+        <Spinner GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Button GridPane.rowIndex="0" GridPane.columnIndex="1" text="Einzahlen"/>
+        <Button GridPane.rowIndex="0" GridPane.columnIndex="2" text="Abheben"/>
+        -->
+
+        <Spinner min="10d" max="100d" initialValue="50d" amountToStepBy="10d"/>
+        <Button text="Einzahlen"/>
+        <Button text="Abheben"/>
+      </HBox>
+    </GridPane>
+  </center>
+</BorderPane>

@@ -109,20 +109,6 @@ public class Girokonto extends Konto implements Serializable {
     return ausgabe;
   }
 
-  /*@Override
-  public boolean abheben(double betrag) throws GesperrtException {
-    if (betrag < 0) {
-      throw new IllegalArgumentException();
-    }
-    if (this.isGesperrt())
-      throw new GesperrtException(this.getKontonummer());
-    if (getKontostand() - betrag >= -dispo) {
-      setKontostand(getKontostand() - betrag);
-      return true;
-    } else
-      return false;
-  }*/
-
   public boolean reichtStand(double betrag) {
     //Endkontostand geht nicht unter Dispo
     if (getKontostand() - betrag >= -dispo) {
