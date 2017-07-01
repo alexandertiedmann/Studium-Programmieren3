@@ -4,40 +4,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane styleClass="root" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.stachtiedmann.oberflaechefxml.KontoOberflaecheController">
   <fx:define>
     <Girokonto fx:id="model"/>
   </fx:define>
   <top>
-    <Text text="Ein Konto verändern" BorderPane.alignment="CENTER"/>
+    <Text text="Ein Konto verändern" styleClass="headline" BorderPane.alignment="CENTER"/>
   </top>
   <center>
-    <GridPane>
+    <GridPane styleClass="grid-pane">
       <Text GridPane.columnIndex="0" GridPane.rowIndex="0" text="Kontonummer:"/>
-      <Text GridPane.columnIndex="1" GridPane.rowIndex="0" text="$model.kontonummer"/>
+      <Text fx:id="kontonummer" GridPane.columnIndex="1" GridPane.rowIndex="0" text="$model.kontonummer"/>
 
       <Text GridPane.columnIndex="0" GridPane.rowIndex="1" text="Kontostand:"/>
-      <Text GridPane.columnIndex="1" GridPane.rowIndex="1" text="${model.kontostand}"/>
+      <Text fx:id="kontostand"  GridPane.columnIndex="1" GridPane.rowIndex="1" text="${model.kontostand}"/>
 
       <Text GridPane.columnIndex="0" GridPane.rowIndex="2" text="Gesperrt:"/>
-      <CheckBox GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+      <CheckBox fx:id="gesperrt" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
       <Text GridPane.columnIndex="0" GridPane.rowIndex="3" text="Addresse:"/>
-      <TextArea GridPane.columnIndex="1" GridPane.rowIndex="3" text="${model.inhaber.adresse}"/>
+      <TextArea fx:id="inhaberAdresse" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-      <Text GridPane.columnIndex="0" GridPane.rowIndex="4" text="Willkommen lieber Benutzer"/>
+      <Text styleClass="message" GridPane.columnIndex="0" GridPane.rowIndex="4" text="Willkommen lieber Benutzer"/>
 
-      <HBox GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2" alignment="CENTER">
-        <!--
-        <Spinner GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <Button GridPane.rowIndex="0" GridPane.columnIndex="1" text="Einzahlen"/>
-        <Button GridPane.rowIndex="0" GridPane.columnIndex="2" text="Abheben"/>
-        -->
-
-        <Spinner min="10d" max="100d" initialValue="50d" amountToStepBy="10d"/>
-        <Button text="Einzahlen"/>
-        <Button text="Abheben"/>
+      <HBox styleClass="footer" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2">
+        <Spinner fx:id="betrag" min="10d" max="100d" initialValue="50d" amountToStepBy="10d"/>
+        <Button text="Einzahlen" onAction="#einzahlen"/>
+        <Button text="Abheben" onAction="#abheben"/>
       </HBox>
     </GridPane>
   </center>

@@ -1,0 +1,29 @@
+.root {
+  -fx-padding: 10px;
+  -fx-alignment: center;
+}
+
+.headline {
+  -fx-font-size: 20pt;
+}
+
+.grid-pane {
+  -fx-vgap: 10px;
+  -fx-alignment: center;
+}
+
+.message {
+  -fx-fill: red;
+  -fx-font-size: 15pt;
+  -fx-font-family: sans-serif;
+}
+
+.footer {
+  -fx-alignment: center;
+  -fx-spacing: 10px;
+}
+
+
+.negative {
+  -fx-fill: red;
+}

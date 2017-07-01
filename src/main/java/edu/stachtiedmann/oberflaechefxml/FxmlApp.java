@@ -22,6 +22,7 @@ public class FxmlApp extends Application {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/KontoOberflaeche.fxml"));
     Parent root = loader.load();
     Scene scene = new Scene(root);
+    scene.getStylesheets().add(getClass().getResource("/css/KontoOberflaeche.css").toExternalForm());
 
     primaryStage.setScene(scene);
     primaryStage.show();
