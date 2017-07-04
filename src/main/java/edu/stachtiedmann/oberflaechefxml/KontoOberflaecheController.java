@@ -42,9 +42,13 @@ public class KontoOberflaecheController {
 
     model.positiveProperty().addListener(observable -> {
       if (model.isPositive()) {
-        kontostand.setFill(Color.BLACK);
+        if(kontostand.getStyleClass().contains("negative")) {
+          kontostand.getStyleClass().remove("negative");
+        }
       } else {
-        kontostand.setFill(Color.RED);
+        if(!kontostand.getStyleClass().contains("negative")) {
+          kontostand.getStyleClass().add("negative");
+        }
       }
     });
   }
